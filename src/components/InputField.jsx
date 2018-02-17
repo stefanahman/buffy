@@ -25,6 +25,13 @@ class InputField extends React.Component {
     this.props.onChange(e.target.value);
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.value !== nextProps.value) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     const { classes } = this.props;
 

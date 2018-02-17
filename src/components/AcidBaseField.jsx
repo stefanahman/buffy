@@ -38,6 +38,16 @@ class AcidBaseField extends React.Component {
     };
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.mole !== nextProps.mole) {
+      return true;
+    }
+    if (this.state.chemicalFormula !== nextState.chemicalFormula) {
+      return true;
+    }
+    return false;
+  }
+
   handleChange = (e) => {
     var moleculeAtoms = e.target.value.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1)
     var totalMass = 0
