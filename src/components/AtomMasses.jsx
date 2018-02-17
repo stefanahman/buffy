@@ -1,4 +1,4 @@
-export default function AtomWeights() {
+export default function AtomMasses() {
   return {
     H: '1.00794',
     He: '4.002602',

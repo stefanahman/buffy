@@ -20,9 +20,9 @@ const styles = theme => ({
 });
 
 
-class PhField extends React.Component {
+class ConcField extends React.Component {
   state = {
-    ph: ''
+    concentration: ''
   };
 
   handleChange = name => event => {
@@ -37,11 +37,11 @@ class PhField extends React.Component {
 
     return (
       <TextField
-        id="ph"
-        label="pH"
+        id="concentration"
+        label="Final concentration"
         className={classes.textField}
         value={this.state.value}
-        onChange={this.handleChange('ph')}
+        onChange={this.handleChange('concentration')}
         type="number"
         margin="normal"
       />
@@ -49,8 +49,8 @@ class PhField extends React.Component {
   }
 }
 
-PhField.propTypes = {
+ConcField.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PhField);
+export default withStyles(styles)(ConcField);

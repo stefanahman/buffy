@@ -4,15 +4,22 @@ import { withStyles } from 'material-ui/styles';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 
-import AtomWeights from './AtomWeights';
+import AtomMasses from './AtomMasses';
 
 const styles = theme => ({
+  container: {
+    borderTopColor: 'gray',
+    borderTopWidth: 1,
+    borderTopStyle: 'dotted',
+    paddingBottom: 15
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   formControl: {
     margin: theme.spacing.unit,
+    width: 300,
   },
   withoutLabel: {
     marginTop: theme.spacing.unit * 3,
@@ -22,29 +29,30 @@ const styles = theme => ({
 
 class AcidBaseField extends React.Component {
   state = {
-    acid: '',
-    molecule_weight: 0
+    acidBase: '',
+    mole: 0,
+    molarMass: 0
   };
 
   handleChange = event => {
     var molecule_atoms = event.target.value.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1)
 
-    var atom_weights = AtomWeights()
-    var molecule_weight = 0
+    var atomMasses = AtomMasses()
+    var molarMass = 0
 
     for (var i = 0; i < molecule_atoms.length; i++) {
       var atom_obj = molecule_atoms[i].match(/[a-zA-Z]+|[0-9]+/g) // O2 => [O,2]
 
       var atom = atom_obj[0]
       var number = parseInt(atom_obj[1], 0) || 1
-      var atom_weight = parseFloat(atom_weights[atom])
+      var atom_weight = parseFloat(atomMasses[atom])
 
-      molecule_weight += atom_weight * number
+      molarMass += atom_weight * number
     }
 
     this.setState({
-      acid: event.target.value,
-      molecule_weight: molecule_weight
+      acidBase: event.target.value,
+      molarMass: molarMass
     });
   };
 
@@ -53,19 +61,33 @@ class AcidBaseField extends React.Component {
 
     return (
       <div className={classes.container}>
-        <FormControl className={classes.formControl} aria-describedby="acid-helper-text">
-          <InputLabel htmlFor="acid">{this.props.label}</InputLabel>
+        <FormControl className={classes.formControl} aria-describedby="acidBase-helper-text">
+          <InputLabel htmlFor="acidBase">{this.props.label}</InputLabel>
           <Input
-            id="acid"
+            id="acidBase"
             value={this.state.acid}
             onChange={this.handleChange}
           />
-          <FormHelperText id="acid-helper-text">Chemical name</FormHelperText>
+          <FormHelperText id="acidBase-helper-text">Chemical formula</FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl} aria-describedby="molar-mass-helper-text" disabled>
+          <Input
+            value={this.state.molarMass}
+            endAdornment={<InputAdornment position="end">gram/mole</InputAdornment>}
+          />
+          <FormHelperText id="molar-mass-helper-text">Molar mass</FormHelperText>
         </FormControl>
         <FormControl className={classes.formControl} aria-describedby="molecule-weight-helper-text" disabled>
           <Input
-            value={this.state.molecule_weight}
-            endAdornment={<InputAdornment position="end">mole/L</InputAdornment>}
+            value={this.props.mole}
+            endAdornment={<InputAdornment position="end">mole</InputAdornment>}
+          />
+          <FormHelperText id="molecule-weight-helper-text">Calculated mole based on input</FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl} aria-describedby="molecule-weight-helper-text" disabled>
+          <Input
+            value={parseFloat(this.state.molarMass || 0)*parseFloat(this.props.mole)}
+            endAdornment={<InputAdornment position="end">gram</InputAdornment>}
           />
           <FormHelperText id="molecule-weight-helper-text">Total weight</FormHelperText>
         </FormControl>

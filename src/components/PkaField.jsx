@@ -12,6 +12,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200,
+    paddingBottom: 15
   },
   menu: {
     width: 200,
@@ -21,13 +22,14 @@ const styles = theme => ({
 
 class PkaField extends React.Component {
   state = {
-    value: ''
+    pka: ''
   };
 
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
+    this.props.callbackFromParent(event.target.value);
   };
 
   render() {
@@ -39,7 +41,7 @@ class PkaField extends React.Component {
         label="pKa"
         className={classes.textField}
         value={this.state.value}
-        onChange={this.handleChange('value')}
+        onChange={this.handleChange('pka')}
         type="number"
         margin="normal"
       />
