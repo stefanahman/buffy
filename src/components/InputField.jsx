@@ -20,16 +20,9 @@ const styles = theme => ({
 });
 
 
-class PhField extends React.Component {
-  state = {
-    ph: ''
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-    this.props.callbackFromParent(event.target.value);
+class InputField extends React.Component {
+  handleChange = e => {
+    this.props.onChange(e.target.value);
   };
 
   render() {
@@ -37,20 +30,20 @@ class PhField extends React.Component {
 
     return (
       <TextField
-        id="ph"
-        label="pH"
+        id={this.props.id || "id"}
+        label={this.props.label}
         className={classes.textField}
-        value={this.state.value}
-        onChange={this.handleChange('ph')}
-        type="number"
-        margin="normal"
+        value={this.props.value}
+        onChange={this.handleChange}
+        type={this.props.type || "number"}
+        margin={this.props.margin || "normal"}
       />
     );
   }
 }
 
-PhField.propTypes = {
+InputField.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PhField);
+export default withStyles(styles)(InputField);

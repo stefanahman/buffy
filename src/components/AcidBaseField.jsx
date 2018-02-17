@@ -28,32 +28,37 @@ const styles = theme => ({
 
 
 class AcidBaseField extends React.Component {
-  state = {
-    acidBase: '',
-    mole: 0,
-    molarMass: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      atomMasses: AtomMasses(),
+      chemicalFormula: '',
+      mole: 0,
+      molarMass: 0
+    };
   };
 
-  handleChange = event => {
-    var molecule_atoms = event.target.value.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1)
+  handleChange = (e) => {
+    var moleculeAtoms = e.target.value.match(/([A-Z]?[^A-Z]*)/g).slice(0,-1)
+    var totalMass = 0
 
-    var atomMasses = AtomMasses()
-    var molarMass = 0
+    for (var i = 0; i < moleculeAtoms.length; i++) {
+      var atomParts = moleculeAtoms[i].match(/[a-zA-Z]+|[0-9]+/g) // O2 => [O,2]
 
-    for (var i = 0; i < molecule_atoms.length; i++) {
-      var atom_obj = molecule_atoms[i].match(/[a-zA-Z]+|[0-9]+/g) // O2 => [O,2]
+      var mass = parseFloat(this.state.atomMasses[atomParts[0]])
+      var amount = parseInt(atomParts[1], 0) || 1
 
-      var atom = atom_obj[0]
-      var number = parseInt(atom_obj[1], 0) || 1
-      var atom_weight = parseFloat(atomMasses[atom])
-
-      molarMass += atom_weight * number
+      totalMass += mass * amount
     }
 
     this.setState({
-      acidBase: event.target.value,
-      molarMass: molarMass
+      chemicalFormula: e.target.value,
+      molarMass: totalMass
     });
+  };
+
+  totalWeight = () => {
+    return parseFloat(this.state.molarMass || 0) * parseFloat(this.props.mole)
   };
 
   render() {
@@ -61,14 +66,14 @@ class AcidBaseField extends React.Component {
 
     return (
       <div className={classes.container}>
-        <FormControl className={classes.formControl} aria-describedby="acidBase-helper-text">
-          <InputLabel htmlFor="acidBase">{this.props.label}</InputLabel>
+        <FormControl className={classes.formControl} aria-describedby="chemical-formula-helper-text" required>
+          <InputLabel htmlFor="chemicalFormula">{this.props.label}</InputLabel>
           <Input
-            id="acidBase"
+            id="chemicalFormula"
             value={this.state.acid}
             onChange={this.handleChange}
           />
-          <FormHelperText id="acidBase-helper-text">Chemical formula</FormHelperText>
+          <FormHelperText id="chemical-formula-helper-text">Chemical formula</FormHelperText>
         </FormControl>
         <FormControl className={classes.formControl} aria-describedby="molar-mass-helper-text" disabled>
           <Input
@@ -86,7 +91,7 @@ class AcidBaseField extends React.Component {
         </FormControl>
         <FormControl className={classes.formControl} aria-describedby="molecule-weight-helper-text" disabled>
           <Input
-            value={parseFloat(this.state.molarMass || 0)*parseFloat(this.props.mole)}
+            value={this.totalWeight()}
             endAdornment={<InputAdornment position="end">gram</InputAdornment>}
           />
           <FormHelperText id="molecule-weight-helper-text">Total weight</FormHelperText>
