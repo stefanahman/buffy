@@ -1,7 +1,14 @@
 {
-  "main.css": "static/css/main.c17080f1.css",
-  "main.css.map": "static/css/main.c17080f1.css.map",
-  "main.js": "static/js/main.ebaf9aec.js",
-  "main.js.map": "static/js/main.ebaf9aec.js.map",
-  "static/media/logo.svg": "static/media/logo.5d5d9eef.svg"
+  "main.css": "/buffy/static/css/main.20685434.chunk.css",
+  "main.js": "/buffy/static/js/main.9899a28c.chunk.js",
+  "main.js.map": "/buffy/static/js/main.9899a28c.chunk.js.map",
+  "static/js/1.49a5790d.chunk.js": "/buffy/static/js/1.49a5790d.chunk.js",
+  "static/js/1.49a5790d.chunk.js.map": "/buffy/static/js/1.49a5790d.chunk.js.map",
+  "runtime~main.js": "/buffy/static/js/runtime~main.af59a92a.js",
+  "runtime~main.js.map": "/buffy/static/js/runtime~main.af59a92a.js.map",
+  "static/media/logo.svg": "/buffy/static/media/logo.5d5d9eef.svg",
+  "static/css/main.20685434.chunk.css.map": "/buffy/static/css/main.20685434.chunk.css.map",
+  "index.html": "/buffy/index.html",
+  "precache-manifest.11e75498847073fb4719ad758ab22e8c.js": "/buffy/precache-manifest.11e75498847073fb4719ad758ab22e8c.js",
+  "service-worker.js": "/buffy/service-worker.js"
 }
